@@ -12,7 +12,7 @@ const SESSION_COOKIE = "session";
 const SESSION_DURATION_MS = 7 * 24 * 60 * 60 * 1000;
 
 function getEncodedKey() {
-  const secret = process.env.SESSION_SECRET;
+  const secret = process.env.SESSION_SECRET?.trim();
   if (!secret) throw new Error("SESSION_SECRET is not set");
   return new TextEncoder().encode(secret);
 }
