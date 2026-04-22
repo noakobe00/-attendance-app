@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           String       @id @default(cuid())
+  email        String       @unique
+  passwordHash String
+  name         String
+  role         String       @default("WORKER") // "ADMIN" | "WORKER"
+  createdAt    DateTime     @default(now())
+  timeRecords  TimeRecord[]
+}
+
+model TimeRecord {
+  id        String   @id @default(cuid())
+  userId    String
+  clockIn   DateTime
+  clockOut  DateTime?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
